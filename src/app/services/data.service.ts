@@ -11,7 +11,14 @@ export class DataService {
     ) { }
 
     getPokemons(){
-      return this.http.get('https://pokeapi.co/api/v2/pokemon/?limit=964');      
-      //return this.http.get('https://pokeapi.co/api/v2/pokemon');      
+      let url = `https://pokeapi.co/api/v2/pokemon/?limit=964`;
+      return this.http.get(url);
     }
+
+    getOnePokemon(name: string) {
+      let url = `https://pokeapi.co/api/v2/pokemon/${name}`;
+      return this.http.get(url);
+    }
+
+    
 }

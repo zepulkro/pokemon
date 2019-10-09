@@ -9,19 +9,38 @@ import { Observable } from 'rxjs';
 })
 export class HomePageComponent implements OnInit {
 
-  pokemons: Object;
+  pokemons: any[] = [];
+  dataPokemon: any[] = [];
+
+  pokemon: any = {};
+
   constructor(
     private data: DataService
-    ) { }
+    ) { 
+      this.loadPoke();
+    }
 
   ngOnInit() {
-    this.data.getPokemons().subscribe(
-      response => this.pokemons = response.results
-    )
+    
   }
 
-  onPokemonLoad() {
-    console.log("1");
+  onPokemonLoad(objPoke: any) {
+    this.pokemon = objPoke;
   }  
+
+  private loadPoke() {
+    this.data.getPokemons().subscribe(
+      (response: any) => {
+        this.pokemons = response.results
+        for(let i = 0; this.pokemons.length > i; i++) {
+          this.data.getOnePokemon(this.pokemons[i].name).subscribe(
+            (response: any) => {
+              this.dataPokemon.push(response);
+            }
+          )     
+        }
+      }
+    )
+  }
 
 }
