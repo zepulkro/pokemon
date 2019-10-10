@@ -1,6 +1,74 @@
-<div class="row mt-3">
-    <div class="card col-md-3 m-2 text-center" *ngFor="let pokemon of pokemons">
-        <h2>{{pokemon.name}}</h2>
-        <!--<img src="{{pokemon.sprites.front_default}}">  sprites.front_default-->
+<!--<div *ngIf="loading" class="row text-center animated fadeIn">
+  <div class="col">
+
+    <i class="fa fa-sync fa-spin fa-5x"></i>
+
+  </div>
+</div>-->
+
+<div *ngIf="!loading" class="row mt-3">
+  <div class="card col-md-3 m-2" *ngFor="let pokemon of allPokemons" (click)="onPokemonLoad(pokemon)"
+  data-toggle="modal" data-target="#exampleModal">
+    <div class="card-header text-center">
+      <h2>{{pokemon.name}}</h2>
+    </div>
+    <div class="card-body text-center">
+      <img class="text-center" [src]="pokemon.urlFoto">
+    </div>
+    <div>
+        <span>Types:</span>
+        <ul>
+            <li *ngFor="let type of pokemon.info.types">{{type.type.name}}</li>
+        </ul>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{pokemon.name}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="card-body text-center">
+                <img [src]="pokemon.urlFoto">
+            </div>
+            <div *ngIf="pokemon.info" class="modal-body container">
+              <div class="row">
+                <div class="col-lg-6">
+                  <span>Weight:</span>
+                    <ul>
+                    <li>{{pokemon.info.weight}} gramos</li>
+                    </ul>
+                  <span>Height:</span>
+                    <ul>
+                    <li>{{pokemon.info.height}} cm</li>
+                    </ul>
+                </div>
+                <div class="col-lg-6">
+                  <div>
+                      <span>Abilities:</span>
+                      <ul>
+                          <li *ngFor="let ability of pokemon.info.abilities">{{ability.ability.name}}</li>
+                      </ul>
+                  </div>
+                  <div>
+                      <span>Types:</span>
+                      <ul>
+                          <li *ngFor="let type of pokemon.info.types">{{type.type.name}}</li>
+                      </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer" *ngIf="isLogin">
+                <button type="button" class="btn btn-primary">Save as favorite</button>
+            </div>
+        </div>
     </div>
 </div>
